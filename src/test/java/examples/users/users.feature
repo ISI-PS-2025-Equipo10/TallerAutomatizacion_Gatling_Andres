@@ -1,46 +1,49 @@
-Feature: sample karate test script
-  for help, see: https://github.com/karatelabs/karate/wiki/IDE-Support
+Feature: Inicio de Sesión (Login)
 
   Background:
-    * url 'https://jsonplaceholder.typicode.com'
+    * url 'https://thinking-tester-contact-list.herokuapp.com'
+    * configure cookies = null
+    * configure headers = { 'Content-Type': 'application/json' }
 
-  Scenario: get all users and then get the first user by id
-    Given path 'users'
-    When method get
-    Then status 200
-
-    * def first = response[0]
-
-    Given path 'users', first.id
-    When method get
-    Then status 200
-
-  Scenario: create a user and then get it by id
-    * def user =
+  @login
+  Scenario: Login and get authentication token
+    Given path 'users/login'
+    And request 
       """
       {
-        "name": "Test User",
-        "username": "testuser",
-        "email": "test@user.com",
-        "address": {
-          "street": "Has No Name",
-          "suite": "Apt. 123",
-          "city": "Electri",
-          "zipcode": "54321-6789"
-        }
+        "email": "a@example.com",
+        "password": "1234567"
       }
       """
-
-    Given url 'https://jsonplaceholder.typicode.com/users'
-    And request user
     When method post
-    Then status 201
+    Then status 200
+    And match response.user._id == '#string'
+    And match response.user.email == 'a@example.com'
+    And match response.token == '#string'
+    
+    * def token = response.token
+    * print 'Login successful, token extracted:', token
 
-    * def id = response.id
-    * print 'created id is: ', id
+  Scenario: Login and extract token, then retrieve contacts
+    Given path 'users/login'
+    And request 
+      """
+      {
+        "email": "a@example.com",
+        "password": "1234567"
+      }
+      """
+    When method post
+    Then status 200
+    And match response.user._id == '#string'
+    And match response.user.email == 'a@example.com'
+    And match response.token == '#string'
 
-    Given path id
-    # When method get
-    # Then status 200
-    # And match response contains user
-  
+    * def authToken = response.token
+    * print 'Login successful, token extracted:', authToken
+
+    Given path 'contacts'
+    And header Authorization = 'Bearer ' + authToken
+    When method get
+    Then status 200
+

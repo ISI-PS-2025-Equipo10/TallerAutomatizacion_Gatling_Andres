@@ -10,17 +10,31 @@
           <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven.surefire.version>3.0.0</maven.surefire.version>        
-        <karate.version>1.5.1</karate.version>
+        <maven.surefire.version>3.0.0</maven.surefire.version>     
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
-
+  <karate.version>1.5.1</karate.version>
     <gatling.version>3.3.1</gatling.version>
     <gatling-maven-plugin.version>3.0.5</gatling-maven-plugin.version>
   </properties>
 
   <dependencies>
+  <dependency>
+    <groupId>io.karatelabs</groupId>
+    <artifactId>karate-core</artifactId>
+    <version>${karate.version}</version>
+    <classifier>all</classifier>
+    <scope>test</scope>
+  </dependency>
+
+  <dependency>
+    <groupId>io.karatelabs</groupId>
+    <artifactId>karate-junit5</artifactId>
+    <version>${karate.version}</version>
+    <scope>test</scope>
+  </dependency>
+
   <dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
     <artifactId>jackson-core</artifactId>
