@@ -9,9 +9,9 @@
     "@wdio/visual-service": "^8.0.4"
   },
   "scripts": {
-    "karate:test": "mvn clean test",
+    "karate": "mvn clean test",
     "wdio": "wdio run ./wdio.conf.js",
-    "gatling:test": "mvn clean gatling:test --file pom.xml"
+    "gatling": "mvn clean gatling:test --file pom.xml"
   }
   
 }
