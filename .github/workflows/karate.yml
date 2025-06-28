@@ -17,10 +17,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - uses: stCarolas/setup-maven@v4
+      
+      - name: Set up Maven
+        uses: s4u/setup-maven-action@v1.10.0
         with:
           maven-version: '3.9.5'
+
 
       - name: Run Karate tests
         run: npm run karate
